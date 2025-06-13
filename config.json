@@ -1,25 +1,25 @@
 {
   "SERVER_IP": "localhost",
-  "SERVER_PORT": 30120,
-  "PORT_API": 30120,
+  "SERVER_PORT": localport,
+  "PORT_API": localport,
 
   "SERVER_NAME": "Test",
-  "SERVER_LOGO": "https://media.discordapp.net/attachments/1376136682512056351/1376136753391603785/005.png?ex=684b4cf9&is=6849fb79&hm=60a45bac91fe77aaf6d74d945f28b23ded95e27907fed0a838fd7015b0d766e7&=&format=webp&quality=lossless&width=648&height=648",
+  "SERVER_LOGO": "",
   
   "EMBED_COLOR_RESTART": "#FFA500",
   "EMBED_COLOR_OFFLINE": "#FF0000", 
   "EMBED_COLOR_ONLINE": "#00FF00",
   "EMBED_COLOR_MAINTENANCE": "#FFFF00",     
 
-  "BOT_TOKEN": "MTM4MjYxMTM4MTc0ODIzNjMxOQ.GdVq6H.ry4IEq_vqRcPTKYvx_kDqjvIlV1v3a3EojX5T4",
-  "CHANNEL_ID": "1379025982245175367",
-  "STATUS_ROLE_ID": "1379008087293431949",
+  "BOT_TOKEN": "",
+  "CHANNEL_ID": "",
+  "STATUS_ROLE_ID": "",
 
-  "RESTART_TIMES": "07.00 น. / 17.00 น.",
+  "RESTART_TIMES": "1pm/ 2am",
   "DEBUG": false,
   "SHOW_PLAYERS": true,
 
-  "WEBHOOK_URL":"https://discord.com/api/webhooks/1382965555140755526/nM11nqd80TrSbipi50nVSUweCYoUdb9bq93Qe6NGq4cAfltohf_KR9-03K9T75WbY5tC",
+  "WEBHOOK_URL":"",
   
   "CHECK_INTERVAL": 10000,
   "ENABLE_AUTO_CHECK": false
