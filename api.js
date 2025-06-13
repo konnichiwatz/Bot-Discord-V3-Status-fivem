@@ -29,7 +29,7 @@ app.post('/status', async (req, res) => {
 function startApiServer() {
   const PORT = config.PORT_API;
   app.listen(PORT, () => {
-    console.log(`🌐 HTTP Webhook Server running at http://localhost:${PORT}/status`);
+    console.log(`🌐 HTTP Webhook Server running at http://localhost:${PORT}/status`); // Change localhost to ip
   });
 }
 
