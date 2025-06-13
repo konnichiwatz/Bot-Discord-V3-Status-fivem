@@ -12,7 +12,6 @@ const client = new Client({
 client.once("ready", () => {
   console.log(`🟢 Logged in as ${client.user.tag}`);
 
-  // เริ่มต้นระบบจัดการ Webhook จาก FiveM
   initStatusHandler(client);
 
   if (config.ENABLE_AUTO_CHECK) {
@@ -23,11 +22,9 @@ client.once("ready", () => {
     console.log("🛑 ปิดระบบตรวจสอบสถานะอัตโนมัติ (Webhook Mode Only)");
   }
 
-  // เริ่ม API Server หลังจาก login แล้วเท่านั้น
   startApiServer();
 });
 
-// ✅ เรียก login แค่ครั้งเดียวที่นี่
 client.login(config.BOT_TOKEN).then(() => {
   console.log("✅ Discord bot logged in successfully.");
 }).catch(err => {
