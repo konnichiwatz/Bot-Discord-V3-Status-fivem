@@ -158,6 +158,45 @@ async function updateBotStatus(client, status) {
   }
 }
 
+async function sendStatusUpdate(statusText) {
+  const embed = getEmbed(statusText);
+
+  if (!clientInstance) {
+    console.error("❌ clientInstance ยังไม่ได้รับการเซต! ตรวจสอบ initStatusHandler(client)");
+    return;
+  }
+
+  try {
+    // ช่องหลัก
+    const mainChannel = await clientInstance.channels.fetch(config.CHANNEL_ID);
+    if (!mainChannel) {
+      console.error("❌ ไม่พบ Main Channel ด้วย ID นี้:", config.CHANNEL_ID);
+      return;
+    }
+
+    await mainChannel.send({
+      content: `📢 สถานะอัปเดต: \`${statusText.toUpperCase()}\`\n<@&${config.STATUS_ROLE_ID}>`,
+      embeds: [embed],
+    });
+
+    if (config.SECONDARY_CHANNEL_ID) {
+      const secondaryChannel = await clientInstance.channels.fetch(config.SECONDARY_CHANNEL_ID);
+      if (secondaryChannel) {
+        await secondaryChannel.send({
+          content: `📢 สถานะอัปเดต: \`${statusText.toUpperCase()}\`\n<@&${config.STATUS_ROLE_ID}>`,
+          embeds: [embed],
+        });
+      } else {
+        console.warn("⚠️ ไม่พบ Secondary Channel ด้วย ID นี้:", config.SECONDARY_CHANNEL_ID);
+      }
+    }
+
+    console.log(`📣 ส่งสถานะไปยัง Discord → ${statusText}`);
+  } catch (err) {
+    console.error("❌ ส่ง embed ไม่สำเร็จ:", err);
+  }
+}
+
 module.exports = {
   initStatusHandler,
   checkServerStatus,
