@@ -1,7 +1,7 @@
 {
   "SERVER_IP": "localhost",
-  "SERVER_PORT": localport,
-  "PORT_API": localport,
+  "SERVER_PORT": 30120,
+  "PORT_API": 30120,
 
   "SERVER_NAME": "Test",
   "SERVER_LOGO": "",
@@ -13,9 +13,10 @@
 
   "BOT_TOKEN": "",
   "CHANNEL_ID": "",
+  "SECONDARY_CHANNEL_ID": "",
   "STATUS_ROLE_ID": "",
 
-  "RESTART_TIMES": "1pm/ 2am",
+  "RESTART_TIMES": "07.00 น. / 17.00 น.",
   "DEBUG": false,
   "SHOW_PLAYERS": true,
 
