@@ -38,16 +38,16 @@ local function sendStatusOnce(status)
     end
 end
 
+RegisterNetEvent("txAdmin:events:scheduledRestart")
+AddEventHandler("txAdmin:events:scheduledRestart", function(data)
+    print("[Webhook] Sending restart status to Discord bot (scheduled)")
+    sendStatusOnce("restart")
+end)
+
 RegisterNetEvent("txAdmin:events:serverShuttingDown")
 AddEventHandler("txAdmin:events:serverShuttingDown", function(data)
-    print("[Webhook] Sending restart status to Discord bot")
-    sendStatusOnce("restart")
-
-    CreateThread(function()
-        Wait(data.delay or 10000)
-        print("[Webhook] Sending offline status after shutdown delay")
-        sendStatusOnce("offline")
-    end)
+    print("[Webhook] Sending offline status to Discord bot (server shutting down)")
+    sendStatusOnce("offline")
 end)
 
 AddEventHandler("onResourceStop", function(resourceName)
