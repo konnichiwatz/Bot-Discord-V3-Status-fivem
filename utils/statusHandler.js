@@ -1,4 +1,4 @@
-const { EmbedBuilder } = require("discord.js");
+const { EmbedBuilder, ActivityType } = require("discord.js");
 const FiveM = require("fivem-stats");
 const config = require("../config.json");
 
@@ -22,21 +22,21 @@ function getEmbed(statusText) {
         .setColor(config.EMBED_COLOR_RESTART) // ส้ม
         .setTitle("🔁 กำลังรีสตาร์ทเซิร์ฟเวอร์")
         .setDescription(`งดเข้าเซิร์ฟเวอร์ก่อนประกาศเปิดเซิร์ฟเวอร์\nหากเข้าได้แล้วจะแจ้งให้ทราบอีกครั้ง\n\n**Server Status:** \`🔁 Restart 🔁\``)
-        .setImage("https://i.ibb.co/gVfDpZK/restart.jpg");
+        .setImage("https://cdn-icons-png.flaticon.com/512/16265/16265301.png");
       break;
     case "online":
       embed
         .setColor(config.EMBED_COLOR_ONLINE) // เขียว
         .setTitle("✅ TEST RESTART SERVER")
         .setDescription(`Server เปิดให้บริการปกติแล้วค่ะ\nกด F8 เพื่อเปิดหน้าต่าง Console นำ IP ด้านล่างวางได้เลย\n\`\`\`connect ${config.SERVER_IP}:${config.SERVER_PORT}\`\`\`\n**เวลารีเซิร์ฟเวอร์**\n\`\`\`${config.RESTART_TIMES}\`\`\`\n**Server Status:** \`🟢 Online 🟢\``)
-        .setImage("https://i.ibb.co/W3S3KWC/online.jpg");
+        .setImage("https://cdn-icons-png.flaticon.com/512/11433/11433365.png");
       break;
     case "maintenance":
       embed
         .setColor(config.EMBED_COLOR_MAINTENANCE) // เหลือง
         .setTitle("🛠️ Server Maintenance")
         .setDescription(`กำลังทดสอบระบบ งดเข้าเซิร์ฟเวอร์ก่อนประกาศเปิดเซิร์ฟเวอร์\n\n**Server Status:** \`⚠️ Maintenance ⚠️\``)
-        .setImage("https://i.ibb.co/SKvGmgW/maintenance1.jpg");
+        .setImage("https://cdn-icons-png.flaticon.com/512/18208/18208249.png");
       break;
     case "offline":
     default:
@@ -44,7 +44,7 @@ function getEmbed(statusText) {
         .setColor(config.EMBED_COLOR_OFFLINE) // แดง
         .setTitle("❌ Server Offline")
         .setDescription(`กำลังปรับปรุงเซิร์ฟเวอร์\nห้ามเข้าก่อนประกาศเปิดเซิร์ฟเวอร์\n\n**Server Status:** \`🔴 Offline 🔴\``)
-        .setImage("https://i.ibb.co/zf4Nbnr/maintenance2.jpg");
+        .setImage("https://cdn-icons-png.flaticon.com/512/448/448942.png");
       break;
   }
 
@@ -112,11 +112,10 @@ async function handleWebhookStatusUpdate(status) {
     lastWebhookTimestamp = Date.now();
     await sendStatusUpdate(status);
 
-    // ถ้าเป็น restart → ตั้ง Timer เช็ค offline อีกครั้งใน 10 วินาที
     if (status === "restart") {
       setTimeout(() => {
         console.log("🔍 Checking if server went offline after restart...");
-        checkServerStatus(); // จะเปลี่ยนสถานะเป็น offline ถ้าดับไปแล้วจริง
+        checkServerStatus();
       }, 10000);
     }
 
@@ -127,8 +126,41 @@ async function handleWebhookStatusUpdate(status) {
   }
 }
 
+async function updateBotStatus(client, status) {
+  let activity = {
+    type: ActivityType.Custom,
+    name: 'Custom Status',
+    state: ''
+  };
+
+  switch (status.toLowerCase()) {
+    case 'online':
+      activity.state = '🟢 Server status: Online';
+      break;
+    case 'offline':
+      activity.state = '🔴 Server status: Offline';
+      break;
+    case 'restart':
+      activity.state = '🔁 Server status: Restarting';
+      break;
+    case 'maintenance':
+      activity.state = '🛠️ Server status: Maintenance';
+      break;
+    default:
+      activity.state = '❓ Unknown status';
+  }
+
+  try {
+    await client.user.setPresence({ activities: [activity], status: 'online' });
+    console.log(`✅ Updated bot presence to: ${activity.state}`);
+  } catch (error) {
+    console.error('❌ Error updating bot presence:', error);
+  }
+}
+
 module.exports = {
   initStatusHandler,
   checkServerStatus,
-  handleWebhookStatusUpdate
-};
+  handleWebhookStatusUpdate,
+  updateBotStatus,
+}
